@@ -341,9 +341,17 @@ class WebFeedClass extends PanelMenu.Button {
             gicon : Gio.icon_new_for_string( Me.dir.get_path()+ '/rss_red.png' ),
             style_class: 'webfeed-icon-size'
         });
-        this.topBox.add_child(this.icon)
-        if (settings.get_boolean(OKFORNOTIF))
-            Main.notify("webfeed NEWS : "+strItm); 
+        this.topBox.add_child(this.icon);
+    
+        if (settings.get_boolean(OKFORNOTIF)) {
+            let notification = new MessageTray.Notification(
+                Main.messageTray,
+                "RSS Update", // Title
+                strItm // Subtitle
+            );
+            notification.setTransient(true); // Agar otomatis hilang setelah beberapa detik
+            Main.messageTray.add(notification);
+        }
     }
     
     //il y a des reponses
